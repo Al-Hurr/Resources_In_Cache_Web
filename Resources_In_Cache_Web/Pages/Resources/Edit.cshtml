@@ -1,0 +1,29 @@
+﻿@page
+@model Resources_In_Cache_Web.Pages.Resources.EditModel
+@{
+}
+<form method="post">
+    <div class="row container w-75 p-0 m-0 overflow">
+        <div class="col-9">
+            <h2 class="text-info text-black-50">Create Resources</h2>
+        </div>
+        <div class="col-md-12">
+            <br />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ResourceCreateModel.Title" class="control-label"></label>
+                <input asp-for="ResourceCreateModel.Title" class="form-control" />
+                <span asp-validation-for="ResourceCreateModel.Title" class="text-danger"></span>
+            </div>
+            <hr />
+            <div class="form-group row">
+                <div class="col-4">
+                    <input type="submit" value="Update" class="btn btn-primary form-control" />
+                </div>
+                <div class="col-4">
+                    <a asp-page="Index" class="btn btn-success form-control">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
