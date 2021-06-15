@@ -17,7 +17,7 @@ namespace Resources_In_Cache_Web.Services
             _cache = cache;
         }
 
-        public async Task Create(string name)
+        public async Task CreateAsync(string name)
         {
             await Task.Run(() =>
             {
@@ -30,7 +30,7 @@ namespace Resources_In_Cache_Web.Services
             });
         }
 
-        public async Task Update(Guid id, string title)
+        public async Task UpdateAsync(Guid id, string title)
         {
             await Task.Run(() =>
             {
@@ -43,7 +43,7 @@ namespace Resources_In_Cache_Web.Services
             });
         }
 
-        public async Task<Resource> Get(Guid id)
+        public async Task<Resource> GetAsync(Guid id)
         {
             return await Task.Run(() =>
             {
@@ -53,7 +53,7 @@ namespace Resources_In_Cache_Web.Services
             });
         }
 
-        public async Task Remove(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
             await Task.Run(() =>
             {
@@ -103,7 +103,7 @@ namespace Resources_In_Cache_Web.Services
             }
         }
 
-        public async Task<IEnumerable<Resource>> GetAll()
+        public async Task<IEnumerable<Resource>> GetAllAsync()
         {
             return await Task.Run(() =>
             {

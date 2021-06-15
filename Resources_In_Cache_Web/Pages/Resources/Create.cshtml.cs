@@ -27,7 +27,7 @@ namespace Resources_In_Cache_Web.Pages.Resources
 
         public async Task<IActionResult> OnPost()
         {
-            await _service.Create(ResourceCreateModel.Title);
+            await _service.CreateAsync(ResourceCreateModel.Title);
             return RedirectToPage("Index");
         }
     }

@@ -24,14 +24,14 @@ namespace Resources_In_Cache_Web.Pages.Resources
 
         public async Task<IActionResult> OnGet(Guid id)
         {
-            var resource = await _service.Get(id);
+            var resource = await _service.GetAsync(id);
             ResourceCreateModel.Title = resource.Title;
             return Page();
         }
 
         public async Task<IActionResult> OnPost(Guid id)
         {
-            await _service.Update(id, ResourceCreateModel.Title);
+            await _service.UpdateAsync(id, ResourceCreateModel.Title);
             return RedirectToPage("Index");
         }
     }
