@@ -22,11 +22,12 @@ namespace Resources_In_Cache_Web.Pages.Resources
 
         public async Task OnGet()
         {
-            Resources = await Task.Run(() => _service.GetAll().ToList());
+            var resources = await _service.GetAll();
+            Resources = resources.ToList();
         }
         public async Task<IActionResult> OnPostDelete(Guid id)
         {
-            await Task.Run(() => _service.Remove(id));  
+            await _service.Remove(id);  
             return RedirectToPage("Index");
         }
     }

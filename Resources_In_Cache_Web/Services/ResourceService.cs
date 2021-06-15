@@ -17,51 +17,63 @@ namespace Resources_In_Cache_Web.Services
             _cache = cache;
         }
 
-        public void Create(string name)
+        public async Task Create(string name)
         {
-            var resource = new Resource
+            await Task.Run(() =>
             {
-                Id = Guid.NewGuid(),
-                Title = name
-            };
-            Add(resource);
-        }
-
-        public void Update(Guid id, string title)
-        {
-            var resource = new Resource
-            {
-                Id = id,
-                Title = title
-            };
-            Add(resource, true);
-        }
-
-        public Resource Get(Guid id)
-        {
-            Resource resource = null;
-            _cache.TryGetValue(id, out resource);
-            return resource;
-        }
-
-        public void Remove(Guid id)
-        {
-            _cache.Remove(id);
-
-            List<Guid> keys;
-            _cache.TryGetValue(_resourcesKey, out keys);
-            if(keys.Count == 1)
-            {
-                _cache.Remove(_resourcesKey);
-            }
-            else
-            {
-                keys.Remove(id);
-                _cache.Set(_resourcesKey, keys, new MemoryCacheEntryOptions
+                var resource = new Resource
                 {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(20)
-                });
-            }
+                    Id = Guid.NewGuid(),
+                    Title = name
+                };
+                Add(resource);
+            });
+        }
+
+        public async Task Update(Guid id, string title)
+        {
+            await Task.Run(() =>
+            {
+                var resource = new Resource
+                {
+                    Id = id,
+                    Title = title
+                };
+                Add(resource, true);
+            });
+        }
+
+        public async Task<Resource> Get(Guid id)
+        {
+            return await Task.Run(() =>
+            {
+                Resource resource = null;
+                _cache.TryGetValue(id, out resource);
+                return resource;
+            });
+        }
+
+        public async Task Remove(Guid id)
+        {
+            await Task.Run(() =>
+            {
+                _cache.Remove(id);
+
+                List<Guid> keys;
+                _cache.TryGetValue(_resourcesKey, out keys);
+                if (keys.Count == 1)
+                {
+                    _cache.Remove(_resourcesKey);
+                }
+                else
+                {
+                    keys.Remove(id);
+                    _cache.Set(_resourcesKey, keys, new MemoryCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(20)
+                    });
+                }
+            });
         }
 
         private void Add(Resource resource, bool isUpdate = false)
@@ -91,21 +103,24 @@ namespace Resources_In_Cache_Web.Services
             }
         }
 
-        public IEnumerable<Resource> GetAll()
+        public async Task<IEnumerable<Resource>> GetAll()
         {
-            Resource resource;
-            var resourcesList = new List<Resource>();
-            List<Guid> keys = new List<Guid>();
-            _cache.TryGetValue(_resourcesKey, out keys);
-            if (keys != null)
+            return await Task.Run(() =>
             {
-                foreach (var key in keys)
+                Resource resource;
+                var resourcesList = new List<Resource>();
+                List<Guid> keys = new List<Guid>();
+                _cache.TryGetValue(_resourcesKey, out keys);
+                if (keys != null)
                 {
-                    _cache.TryGetValue(key, out resource);
-                    resourcesList.Add(resource);
+                    foreach (var key in keys)
+                    {
+                        _cache.TryGetValue(key, out resource);
+                        resourcesList.Add(resource);
+                    }
                 }
-            }
-            return resourcesList;
+                return resourcesList;
+            });
         }
     }
 }
